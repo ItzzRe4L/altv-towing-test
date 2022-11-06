@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "test": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\alt-v-server",
+      "hotReloadEnabled": false
+    }
+  }
+}
