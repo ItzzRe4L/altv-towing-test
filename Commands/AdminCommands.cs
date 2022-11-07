@@ -32,20 +32,13 @@ public class AdminCommands : IScript
         MyVehicle veh1 = (MyVehicle)helper.getNearestVehicle(player, 5f);
         MyPlayer[] players = { player };
         bool result = false;
-        player.GetData<bool>("isTowing", out result);
+        player.GetData<bool>("isTowingPl", out result);
         if(result)
         {
             if (veh1 != null)
             {
                 player.GetData<MyVehicle>("towedVeh", out MyVehicle veh2);
                 player.GetData<int>("ropeId", out int ropeId);
-
-                /*
-                player.SendChatMessage(player.ToString());
-                player.SendChatMessage(veh1.ToString());
-                player.SendChatMessage(veh2.ToString());
-                player.SendChatMessage(ropeId.ToString());
-                */
 
                 Alt.EmitClients(players, "attachRopeCar", player, veh1, veh2, ropeId);
             }
@@ -74,10 +67,23 @@ public class AdminCommands : IScript
         int ropeId = 0;
         player.GetData<int>("ropeId", out ropeId);
         bool result = false;
-        player.GetData<bool>("isTowing", out result);
+        player.GetData<bool>("isTowingPl", out result);
         if(result)
         {
-            Alt.EmitClients(players, "untow", player, ropeId);
+            player.GetData<MyVehicle>("towedVeh", out MyVehicle veh);
+            Alt.EmitClients(players, "untowPlayer", player, ropeId, veh);
+        }
+        else
+        {
+            MyVehicle veh1 = (MyVehicle)helper.getNearestVehicle(player, 5f);
+            veh1.GetData<bool>("isTowing", out bool result2);
+            veh1.GetData<bool>("isTowed", out bool result3);
+            if (result2||result3)
+            {
+                veh1.GetData<MyVehicle>("towedVeh", out MyVehicle veh2);
+                veh1.GetData<int>("ropeId", out int ropeId2);
+                Alt.EmitClients(players, "untowCar", player, veh1, veh2, ropeId2);
+            }
         }
     }
 
@@ -85,7 +91,7 @@ public class AdminCommands : IScript
     public static void istow_CMD(MyPlayer player)
     {
         bool result = false;
-        player.GetData<bool>("isTowing", out result);
+        player.GetData<bool>("isTowingPl", out result);
         if(result)
         {
             player.SendChatMessage("isTowing!");

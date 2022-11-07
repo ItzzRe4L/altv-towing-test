@@ -4,6 +4,7 @@ using AltV.Net.Elements.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace test.Entities
     public class MyVehicle : Vehicle
     {
         public bool isTowing { get; set; }
+        public bool isTowed { get; set; }
         public int ropeId { get; set; }
         public MyVehicle? towedVeh { get; set; }
 
@@ -19,6 +21,7 @@ namespace test.Entities
         public MyVehicle(ICore core, uint model, Position position, Rotation rotation) : base(core, model, position, rotation)
         {
             isTowing = false;
+            isTowed = false;
             ropeId = 0;
             towedVeh = null;
         }
@@ -27,6 +30,7 @@ namespace test.Entities
         public MyVehicle(ICore core, IntPtr nativePointer, ushort id) : base(core, nativePointer, id)
         {
             isTowing = false;
+            isTowed = false;
             ropeId = 0;
             towedVeh = null;
         }
